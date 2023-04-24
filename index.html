@@ -412,7 +412,7 @@
 <!-- Footer End -->
 
 <!-- T nd C Notice Start -->
-  <div class="cookie-notice" style="text-align: justify;" id="cookie-banner">
+  <div class="cookie-notice" style="text-align: justify;" id="notice">
     <p>This website is a non-commercial project developed solely for entertainment and educational purposes. 
       This website is a copy of an existing website and is not affiliated with or endorsed by the original website. 
       All materials, including images, text, and code, have been reproduced for the sole purpose of providing a platform for educational and entertainment purposes. 
@@ -432,7 +432,7 @@
        By clicking on the 'accept' button or otherwise accessing or using this website, the user agrees to be bound by these terms and conditions, as well as any additional terms and conditions that may be communicated to the user separately</p>
     
        <br><br>
-       <button class="accept-cookies">Accept</button>
+       <button class="accept-cookies" id="btncookies" onclick="acceptCookies">Accept</button>
   </div>
 
   <style>
@@ -470,29 +470,35 @@ window.addEventListener('scroll', () => {
 
 
 //Terms And Condtions Banner Start
- const cookieNotice = document.querySelector('.cookie-notice');
- const acceptCookiesBtn = document.querySelector('.accept-cookies');
- const websiteContent = document.querySelector('.website-content');
+const cookieNotice = document.getElementById('notice');
+const acceptCookiesBtn = document.getElementById('btncookies');
 
 function hideCookieNotice() {
   cookieNotice.style.display = 'none';
- }
+}
+
+function showCookieNotice() {
+  cookieNotice.style.display = 'block';
+}
+
+function generateCookie() {
+  var expirationDate = new Date();
+  expirationDate.setDate(expirationDate.getDate() + 30);
+  document.cookie = "acceptedCookies=true; expires=" + expirationDate.toUTCString() + "; path=/;";
+  localStorage.setItem('cookiesAccepted', 'true');
+  document.getElementById('cookie-banner').style.display = 'none';
+}
 
 function acceptCookies() {
-   localStorage.setItem('cookiesAccepted', 'true');
- hideCookieNotice();
-   websiteContent.style.display = 'block';
- }
+  generateCookie();
+  hideCookieNotice();
+}
 
- acceptCookiesBtn.addEventListener('click', acceptCookies);
- document.cookie = "acceptedCookies=true; path=/";
-
- if (localStorage.getItem('cookiesAccepted')) {
-   websiteContent.style.display = 'block';
- }
-  else {
-   cookieNotice.style.display = 'none';
- }
+if (localStorage.getItem('cookiesAccepted')) {
+  hideCookieNotice();
+} else {
+  showCookieNotice();
+}
 //Terms And Condtions Banner End
 
 </script>
